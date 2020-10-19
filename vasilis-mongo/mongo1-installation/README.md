@@ -95,6 +95,16 @@ db.tomatosusers.insert({
 
 <br>
 
+<p> Now copy and paste it in the terminal, by doing that you are inserting it to the tomatos user db, this is the "vs" way of doing it otherwise you have the super easy way in MONGO, where you fill the fields.</p>
+
+<br>
+
+#### OPEN DE COMPASS to see if the data was inserted, this is how it should look:
+
+![image2](./img/db_compass.jpg)
+
+<br>
+
 ##### SEVERAL
 
 ```javascript
@@ -121,13 +131,3 @@ db.tomatosusers.insertMany([
 ```
 
 ![image2](./img/several.jpg)
-
-<br>
-
-<p> Now copy and paste it in the terminal, by doing that you are inserting it to the tomatos user db, this is the "vs" way of doing it otherwise you have the super easy way in MONGO, where you fill the fields.</p>
-
-<br>
-
-#### OPEN DE COMPASS to see if the data was inserted, this is how it should look:
-
-![image2](./img/db_compass.jpg)
