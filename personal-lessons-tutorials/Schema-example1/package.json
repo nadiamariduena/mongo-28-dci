@@ -1,0 +1,23 @@
+{
+  "name": "Schema-example1",
+  "version": "1.0.0",
+  "description": "<p>A document schema is a JSON object that allows you to define the shape and content of documents and embedded documents in a collection. ... Document schemas follow the same JSON schema specification as document validation in the MongoDB server. </p>",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "killnode": "lsof -ti :5000 | xargs kill "
+  },
+  "keywords": [],
+  "author": "nadia mariduena",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
