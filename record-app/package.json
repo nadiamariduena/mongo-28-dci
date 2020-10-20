@@ -1,0 +1,28 @@
+{
+  "name": "record-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon -e js app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node seed/db_seed.js",
+    "killnode": "lsof -ti :5000 | xargs kill "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "faker": "^5.1.0",
+    "lowdb": "^1.0.0",
+    "mongoose": "^5.10.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

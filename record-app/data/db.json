@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": "005",
+      "name": "Steve",
+      "email": "steve@stevenson.son"
+    },
+    {
+      "id": "007",
+      "name": "Pablo",
+      "email": "pablo@palboson.son"
+    },
+    {
+      "name": "Rob",
+      "id": "1602157609957",
+      "email": "rob@dci.com"
+    }
+  ],
+  "records": []
+}
