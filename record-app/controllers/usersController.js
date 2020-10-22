@@ -32,13 +32,47 @@ exports.getUser = async (req, res, next) => {
 //
 //
 exports.addUser = async (req, res, next) => {
-  try {
+  /*
+  what are you going to try :
     const user = new User(req.body);
-    const data = await user.save();
+    const data = await user.save(); //save() will save it to the database
 
     res.send(data);
+
+    AND IF FOR SOME REASON theres something wrong, THEN catch it
+    with an error, the error is in app,js:
+
+// * forward the error to our generic error handler below  *
+  let error = new Error(`The route ${req.url} does not exist`);
+  error.code = 404;
+  next(error);
+
+SO THAT IS WHAT THIS MEANS:
+
+  try {
+    const user = new User(req.body);
+    const data = await user.save(); //save() will save it to the database
+
+    res.send(data); //sending back the data saved in the data base
+    //  every time you use async await you do : try catch because otherwise you are fucked
   } catch (error) {
     next(error);
+  }
+};
+
+  
+});
+  
+  
+  */
+  try {
+    const user = new User(req.body);
+    const data = await user.save(); //save() will save it to the database
+
+    res.send(data); //sending back the data saved in the data base
+    //  every time you use async await you do : try catch because otherwise you are fucked
+  } catch (error) {
+    next(error); //the generic  error message is in app.js
   }
 };
 /*
@@ -55,7 +89,7 @@ POSTMAN, on POST method
 So this line const user = new User(req.body); 
 means:   
 
-Its sayd YOU KNOW WHAT create a new User: 
+Its says YOU KNOW WHAT create a new User: 
 new User( 
   "based" on
 the User model User.js , and pass inside those guys (req.body);
@@ -73,6 +107,18 @@ because this new User(
   , you cannot add there info if you dont have anything in the User.js
   as that file is the skeleton you will use to give data,
    i will add an image in the read me.
+
+
+
+// before the async withe the next
+exports.addUser = async (req, res) => {
+const user = new User(req.body); //here you create the user
+await user.save()  //here you save the suer to the DATA BASE
+};
+
+
+
+
 
 
 */

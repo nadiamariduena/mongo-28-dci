@@ -36,11 +36,6 @@ module.exports = mongoose.model("Order", OrdersSchema);
 
 
 
-
-
-
-
-
 The basket can contain multiple ORDERS which means multiple 
 objects and those objects they are RECORDS.
 
