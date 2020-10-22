@@ -1,11 +1,17 @@
 /** CONNECT TO LOWDB */
 const db = require("../lib/db-setup");
-
+//
+//
+//
+//
 exports.getAllRecords = (req, res) => {
   let records = db.get("records").value();
   res.send(records);
 };
-
+//
+//
+//
+//
 exports.getRecord = (req, res) => {
   const { id } = req.params; // We want to return the informatio of the record with id 007
 
@@ -25,6 +31,11 @@ exports.getRecord = (req, res) => {
   }
 };
 
+//
+//
+//
+//
+
 exports.addRecord = (req, res) => {
   const record = req.body;
 
@@ -36,6 +47,11 @@ exports.addRecord = (req, res) => {
 
   res.send(record);
 };
+
+//
+//
+//
+//
 
 exports.updateRecord = (req, res) => {
   const { id } = req.params;
@@ -53,6 +69,10 @@ exports.updateRecord = (req, res) => {
   });
 };
 
+//
+//
+//
+//
 exports.deleteRecord = (req, res) => {
   const { id } = req.params;
 

@@ -4,28 +4,26 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const UserSchema = new Schema(
+const RecordsSchema = new Schema(
   {
-    firstName: {
+    title: {
       type: String,
       required: true,
     },
-    lastName: {
+    artist: {
       type: String,
       required: true,
     },
-    password: {
-      type: String,
+    price: {
+      type: Number,
       required: true,
-      minlength: 5,  //the password minimum
     },
-    email: {
-      type: String,
+    year: {
+      type: Number,
       required: true,
-      unique: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Record", RecordsSchema);
