@@ -1,0 +1,19 @@
+{
+  "name": "wagowsky-exercise-albumartists",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon -e js server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "killnode": "lsof -ti :5000 | xargs kill "
+  },
+  "author": "nadia",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.10",
+    "nodemon": "^2.0.5"
+  }
+}
