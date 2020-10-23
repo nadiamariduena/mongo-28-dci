@@ -16,7 +16,7 @@ exports.addUser = async (req, res, next) => {
 "firstName": "Steve",
  "lastName": "Seasgull",
  "password": "12356",
- "firstName": "russian@gmail.com",
+ "email": "russian@gmail.com",
 
 }
 */
@@ -45,7 +45,7 @@ etc ...
 //  usersControllers.js
 exports.addUser = async (req, res) => {
   const user = new User(req.body); //here you create the user
-  await user.save(); //here you save the suer to the DATA BASE
+  await user.save(); //here you save the user to the DATA BASE
 };
 ```
 
@@ -107,3 +107,35 @@ SO THAT IS WHAT THIS MEANS:
 <br>
 <hr>
 <br>
+<br>
+<br>
+
+### Concerning this error:
+
+```javascript
+(node:10622) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+```
+
+#### The Reason
+
+<p>The issue is that mongoose still uses collection.ensureIndex 
+and should be updated by them in the near future. To get rid of the 
+message you can downgrade by using version 5.2.8 in your package.json (and delete any caches, 
+last resort is to uninstall it the install it with npm install mongoose@5.2.8):</p>
+
+```javascript
+//THE SOLUTION
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+
+//          ** Add it here:
+
+// CONNECT TO DB
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/fbw28-record-store", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+```

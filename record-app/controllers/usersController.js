@@ -82,7 +82,7 @@ POSTMAN, on POST method
 "firstName": "Steve",
  "lastName": "Seasgull",
  "password": "12356",
- "firstName": "russian@gmail.com",
+ "email": "russian@gmail.com",
 
 }
 

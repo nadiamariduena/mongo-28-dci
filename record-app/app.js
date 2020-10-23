@@ -11,6 +11,40 @@ mongoose.connect("mongodb://localhost/fbw28-record-store", {
   useCreateIndex: true,
 });
 
+/*
+
+Concerning this error:
+
+(node:10622) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+
+
+              Reason:
+
+The issue is that mongoose still uses collection.ensureIndex 
+and should be updated by them in the near future. To get rid of the 
+message you can downgrade by using version 5.2.8 in your package.json (and delete any caches, 
+last resort is to uninstall it the install it with npm install mongoose@5.2.8):
+
+              solution:
+
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
+            Add it here:
+
+// CONNECT TO DB
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/fbw28-record-store", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+
+
+*/
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
