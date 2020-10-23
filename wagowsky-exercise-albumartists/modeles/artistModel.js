@@ -17,4 +17,21 @@ const ArtistSchema = mongoose.Schema({
 
 //2 CREATE THE MODULE
 const Artist = mongoose.model("artists", ArtistSchema);
-module;
+module.exports = Artist;
+
+/*
+ANSWERING Natias question about we cannot
+add 2 collections in the same file.
+
+HE EXPLAINED that it would clash at a certain point because 
+in this line where you export the MODULE:
+
+                      const Artist = mongoose.model("artists", ArtistSchema);
+you only have the 
+possibility to add ONE COLLECTION, so thats why!!
+
+
+
+
+
+*/
