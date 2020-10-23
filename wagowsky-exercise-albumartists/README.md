@@ -57,7 +57,7 @@ app.listen(5000, console.log("server running on PORT 5000"));
 
 ```javascript
 //
-const AlbumsSchema = mongoose.Schema({
+const AlbumSchema = mongoose.Schema({
   artist: {
     type: String,
     required: true,
@@ -68,7 +68,7 @@ const AlbumsSchema = mongoose.Schema({
   },
 });
 // TO SHORTER THE LINE between line 19 and 20 , you can also do this:
-module.exports = Album = mongoose.model("albums", AlbumsSchema);
+module.exports = Album = mongoose.model("albums", AlbumSchema);
 // albums is the name of the collection in the folder in the database, compass for example helps you to see what you have.
 
 /*
@@ -122,4 +122,53 @@ const Artist = require("../models/artistModel");
 //
 // 2
 const Album = require("../models/albumModel");
+```
+
+<br>
+<br>
+
+##### FETCHING THE MODELS albums and artists using(ASYNC-AWAIT and try and catch for the errors)
+
+```javascript
+exports.getAlbums = async (req, res) => {
+  /*
+                    const albums = await Album.find({});  line: 25
+
+    //it will return all the data inside the "album" which is
+     the schema stuff, and then transform it into the variable "albums", that
+      will accepted only if everything was fine with the request.
+
+
+
+     */
+
+  const albums = await Album.find({}); //Album.find({}); it will return all the data inside the "album" so the schema stuff
+  res.status(200);
+  res.send(albums);
+};
+```
+
+<br>
+
+##### DOING it correctly with TRY & CATCH (error handling)
+
+```javascript
+exports.getAlbums = async (req, res) => {
+  try {
+    const albums = await Album.find({}); //Album.find({}); it will return all the data inside the "album"
+    res.status(200);
+    res.send(albums);
+  } catch (error) {
+    res.status(400); //show an error if the info was negative
+    res.send(error.message);
+  }
+};
+```
+
+#### its related to the following:
+
+```javascript
+// server.js
+app.use("/api/albums", albumRoutes);
+app.use("/api/artists", artistRoutes);
 ```

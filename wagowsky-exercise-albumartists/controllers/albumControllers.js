@@ -6,7 +6,12 @@ const Album = require("../models/albumModel");
 //  Defining and exporting a specific Controller Method
 //  Get All Albums(entries) data stuff artist, yearReleased...  from the albums Collection
 // Using Async-Await and Try-catch
-
+// 
+/* 
+    FILL in the controllers so they fetch all of the artists and albums 
+    (using ASYNC-AWAIT try and catch)
+*/
+// 
 exports.getAlbums = async (req, res) => {
   /*
                     const albums = await Album.find({});  line: 25
@@ -19,7 +24,7 @@ exports.getAlbums = async (req, res) => {
 
      */
   // HERE YOU HAVE TO SET UP THE TRY AND CATCH for the data of the albums
-  // if the
+  // 
 
   try {
     const albums = await Album.find({}); //Album.find({}); it will return all the data inside the "album"
