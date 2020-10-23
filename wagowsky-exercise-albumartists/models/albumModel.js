@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 //
 // 1 MODEL OR SCHEMA
 // const ArtistSchema = mongoose.model this does the same thing as the line below
-const AlbumsSchema = mongoose.Schema({
+const AlbumSchema = mongoose.Schema({
   artist: {
     type: String,
     required: true,
@@ -21,7 +21,7 @@ const AlbumsSchema = mongoose.Schema({
 //
 //
 // TO SHORTER THE LINE between line 19 and 20 , you can also do this:
-module.exports = Album = mongoose.model("albums", AlbumsSchema);
+module.exports = Album = mongoose.model("albums", AlbumSchema);
 // albums is the name of the collection in the folder in the database, compass for example helps you to see what you have.
 
 /*

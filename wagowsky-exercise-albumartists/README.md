@@ -87,7 +87,7 @@ possibility to add ONE COLLECTION, so thats why!!
 Its actually because you wouldn't be able to differentiate between the 2 MODULES.
 
 
-*** NOW COPY THIS SCHEMA AND PASTE it inside the albumsModel.js
+*** NOW COPY THIS SCHEMA AND PASTE it inside the artistModel.js
 change some data
 
 
