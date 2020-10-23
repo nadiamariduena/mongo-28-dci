@@ -22,7 +22,7 @@ exports.getAlbums = async (req, res) => {
   // if the
 
   try {
-    const albums = await Album.find({});
+    const albums = await Album.find({}); //Album.find({}); it will return all the data inside the "album"
     res.status(200);
     res.send(albums);
   } catch (error) {
