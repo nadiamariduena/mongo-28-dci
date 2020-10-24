@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 // 1 MODEL OR SCHEMA
 // const ArtistSchema = mongoose.model this does the same thing as the line below
 const AlbumSchema = mongoose.Schema({
-  artist: {
+  title: {
     type: String,
     required: true,
   },

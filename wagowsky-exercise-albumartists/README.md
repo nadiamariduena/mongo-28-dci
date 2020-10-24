@@ -58,7 +58,7 @@ app.listen(5000, console.log("server running on PORT 5000"));
 ```javascript
 //
 const AlbumSchema = mongoose.Schema({
-  artist: {
+  title: {
     type: String,
     required: true,
   },
