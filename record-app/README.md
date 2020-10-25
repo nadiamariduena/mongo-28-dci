@@ -340,3 +340,108 @@ npm run seed
 ```
 
 <p>if it worked, all should be gone! TO SEE if it worked go back to the postman and check it again<p>
+
+<br>
+<br>
+
+#### WHY ARE WE WRAPPING THE WHOLE THING?
+
+<p>Joseph told that even if the await works without having the async , its because At the moment we only have one but since we are going to have more, it s really necessary to add the async otherwise we will face ERRORS<p>
+
+<br>
+<br>
+
+#### CREATE 20 FAKE USERS with FAKER
+
+```javascript
+//We create 20 fake users
+
+  const userPromises = Array(20)
+    .fill(null)
+    .map(() => {
+      const user = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        password: faker.internet.password(),
+        email: faker.internet.email(),
+      });
+
+      console.log(`We created a user with name ${user.name}`);
+
+      return user.save();
+    });
+})();
+```
+
+#### Explanation
+
+- we create a User using the class User,
+  this User correspond to the User we have inside the model
+  <br>
+- I make an array of 20:
+
+```javascript
+const userPromises = Array(20);
+```
+
+- I FILL it with nothing:
+
+```javascript
+.fill(null)
+```
+
+- And then I MAP it:
+
+```javascript
+ .map(() => {
+```
+
+- Through each element:
+
+```javascript
+
+firstName: faker.name.firstName(),
+lastName: faker.name.lastName(),
+password: faker.internet.password(),
+email: faker.internet.email(),
+```
+
+<br>
+
+###### So as we map through the array, We create a USER for each element:
+
+```javascript
+.map(() => {
+We create a USER for each element:
+firstName: faker.name.firstName(),
+lastName: faker.name.lastName(),
+password: faker.internet.password(),
+email: faker.internet.email(),
+```
+
+###### AND THEN we want to save this user and keep the promise of "saved INSIDE" the array
+
+```javascript
+return user.save();
+/* 
+this is a promise and is returning a new User every time 
+for 20 times
+*/
+```
+
+##### so after the whole array with the User content, we have an array with 20 promises, dont forget to type "npm run seed" to see the result
+
+![preview1](img/20fake_1.jpg)
+
+##### BUT that is not what we want (Vasilis did a mistake)
+
+- instead of typing name you should put firstName
+
+```javascript
+//BEFORE:  ${user.name}`);
+console.log(`We created a user with name ${user.firstName}`);
+```
+
+- now you can see the fake names
+
+![preview2](img/20fake_2.jpg)

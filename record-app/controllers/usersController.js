@@ -66,6 +66,7 @@ SO THAT IS WHAT THIS MEANS:
   
   */
   try {
+    // here we create a new user: new User(req.body); and for each one of them we save it:  await user.save();
     const user = new User(req.body);
     const data = await user.save(); //save() will save it to the database
 

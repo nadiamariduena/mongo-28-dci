@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
+// FAKER
+const faker = require("faker");
 
 console.log("you are running the seed script");
 console.log("all your previous data will be purged");
@@ -52,7 +54,65 @@ console.log("all your previous data will be purged");
 
   //
   // we create 20 fake users
-  // we close the db connection
+
+  const userPromises = Array(20)
+    .fill(null)
+    .map(() => {
+      const user = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        password: faker.internet.password(),
+        email: faker.internet.email(),
+      });
+
+      console.log(`We created a user with name ${user.firstName}`);
+
+      return user.save();
+    });
 })();
+
 //
+
 // --------------------------
+// we close the db connection
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+Explanation:
+
+we create a User using the class User,
+the User that we have in the model
+
+I make an array of 20:
+\*\*\* const userPromises = Array(20)
+i FILL it with nothing:
+.fill(null) and then i map it: .map(() => {
+through each element.
+
+SO As we map through the array:
+.map(() => {
+We create a USER for each element:
+firstName: faker.name.firstName(),
+lastName: faker.name.lastName(),
+password: faker.internet.password(),
+email: faker.internet.email(),
+
+AND THEN we want to save this user and keep the promise
+of "saved INSIDE" the array
+
+return user.save(); // this is a promise and is returning everytime a new user for 20 times
+
+so after the whole array with the User content, we have
+an array with 20 promises
+*/
