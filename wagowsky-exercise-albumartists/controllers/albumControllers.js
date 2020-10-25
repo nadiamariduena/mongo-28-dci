@@ -12,7 +12,11 @@ const Album = require("../models/albumModel");
     (using ASYNC-AWAIT try and catch)
 */
 //
-exports.getAlbums = async (req, res) => {
+
+const asyncHandler = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
+exports.getAlbums = asyncHandler(async (req, res, next) => {
   /*
                     const albums = await Album.find({});  line: 25
 
@@ -27,14 +31,14 @@ exports.getAlbums = async (req, res) => {
   //
 
   try {
-    const albums = await Album.find({}) //Album.find({}); it will return all the data inside the "album"
+    const albums = await Album.find({}); //Album.find({}); it will return all the data inside the "album"
     res.status(200);
     res.send(albums);
   } catch (error) {
     res.status(400); //show an error if the info was negative
     res.send(error.message);
   }
-};
+});
 
 /*
 exports.getAlbums;

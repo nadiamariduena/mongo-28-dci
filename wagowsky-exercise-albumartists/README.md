@@ -1,4 +1,15 @@
-### EXAMPLE Lesson BY Wagowsky
+# EXAMPLE Lesson BY Wagowsky
+
+#### THIS EXERCISE will only shows how models/schemas controllers and routes work all together.
+
+###### In the lesson we could see how the collection (which i dont have) look like inside MONGO from wagowsky, but still not clear of how you get into that result when stting up the password for the link to make the connection (when using the cluster). Wasily told us we will learn that in few weeks.
+
+<br>
+<br>
+
+- the cluster for the password:
+
+![rested](./img/cluster.jpg)
 
 <br>
 <br>
@@ -165,7 +176,57 @@ exports.getAlbums = async (req, res) => {
 };
 ```
 
-#### its related to the following:
+<br>
+
+#### AFTER we created the MODELS, the next thing to do would be to create the ROUTES Folder and create a controller for each model respectively:
+
+<br>
+
+```javascript
+//albumModel.js
+albumRoutes.js;
+
+//artistModel.js
+artistRoutes.js;
+```
+
+<br>
+
+<p>But what are Routes?</p>
+
+<p>"Routes"  will forward the requests  to the appropriate controller functions. what is Routes forwarding to the controllers? requests and any information encoded in request URLs</p>
+
+<p>and what are Controllers?</p>
+
+<p>Controllers will get the requested data "from" the models/ Schema depending on that, it will create a an HTML page displaying the data, and return it to the user to view in the browser.
+,  </p>
+
+<br>
+<br>
+
+- HOW IT WORKS:
+
+![rested](./img/diagram_controllers_routes.png)
+
+<br>
+<br>
+
+#### its related to the following in the server:
+
+- app.use: for when you want to use the imported controllers
+  and therefore what these controllers contain which is the models/schema:
+
+```javascript
+// server.js
+// importing Routes
+const albumRoutes = require("./routes/albumRoutes");
+//
+const artistRoutes = require("./routes/artistRoutes");
+
+//
+//
+// https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
+```
 
 ```javascript
 // server.js
