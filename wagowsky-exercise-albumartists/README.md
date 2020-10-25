@@ -233,3 +233,39 @@ const artistRoutes = require("./routes/artistRoutes");
 app.use("/api/albums", albumRoutes);
 app.use("/api/artists", artistRoutes);
 ```
+
+<br>
+<br>
+
+## Last but not least :football:
+
+##### SET UP THE DB CONNECTION
+
+```javascript
+// Define COnnection to the DB
+const connectDB = async () => {
+  //
+  //
+  // This is the connection string connected to the collections in the compass
+  try {
+    const connection = await mongoose.connect(
+      // wagowsky:12345@trial  , wagowsky s password: 12345, trial is the collection s name, retryWrites i think is the rule he set up "what the user can do or not, write, read..etc"
+      "mongodb+srv://wagowsky:12345@trial.utxhq.mongodb.net/trial?retryWrites=true&w=majority",
+      // The question mark here: ?retry ,  THE QUESTION mark means that the QUERY starts here , like in the regex there s a symbol to tell from where something starts and another symbol that will tells where it will end ..i think it was the dot or something like that.
+      //
+      //
+      // the following is to be used in case of warnings (deprecation etc)
+      {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true,
+      }
+    );
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+connectDB();
+```
