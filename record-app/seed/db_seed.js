@@ -25,7 +25,7 @@ console.log("all your previous data will be purged");
   //now that we are using an async function, the wait here will not complain:
   //     await User.deleteMany({});
   //
-  mongoose.connect("mongodb://localhost/fbw28-record-store", {
+  mongoose.connect("mongodb://localhost/record-app", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

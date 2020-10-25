@@ -533,6 +533,7 @@ And the reason for that is due to the fact that since we are putting the closing
     console.log(error);
   }
 
+//          *** CLOSING the CONNECTION inside the async function ***
 
   console.log("we are closing the mongoose connection...bye");
 

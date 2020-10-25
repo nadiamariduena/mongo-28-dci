@@ -15,7 +15,7 @@ const OrdersSchema = new Schema(
     basket: [
       {
         recordId: {
-          type: String,
+          type: mongoose.ObjectId,
           required: true,
         },
         quantity: {

@@ -5,7 +5,7 @@ const port = 5000;
 
 /** CONNECT TO DB */
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/fbw28-record-store", {
+mongoose.connect("mongodb://localhost/record-app", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
