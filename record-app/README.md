@@ -54,6 +54,9 @@ exports.addUser = async (req, res) => {
 //  usersControllers.js
 exports.addUser = async (req, res, next) => {
   try {
+    // here we create a new user: new User(req.body);
+    // and for each one of them we save it:  await user.save();
+
     const user = new User(req.body);
     const data = await user.save(); //save() will save it to the database
 
@@ -87,6 +90,8 @@ exports.addUser = async (req, res, next) => {
 SO THAT IS WHAT THIS MEANS:
 
   try {
+// here we create a new user: new User(req.body); and for each one of them we save it:  await user.save();
+
     const user = new User(req.body);
     const data = await user.save(); //save() will save it to the database
 
@@ -144,7 +149,7 @@ mongoose.connect("mongodb://localhost/fbw28-record-store", {
 <br>
 
 <hr>
-
+<hr>
 <br>
 <br>
 
@@ -377,8 +382,10 @@ npm run seed
 
 - we create a User using the class User,
   this User correspond to the User we have inside the model
+
   <br>
-- I make an array of 20:
+
+- I make an ARRAY of 20:
 
 ```javascript
 const userPromises = Array(20);
@@ -445,3 +452,96 @@ console.log(`We created a user with name ${user.firstName}`);
 - now you can see the fake names
 
 ![preview2](img/20fake_2.jpg)
+
+- To see the whole result, go to the browser and type:http://localhost:5000/users
+
+![preview3](img/20fake_3.jpg)
+
+  <br>
+    <br>
+
+### THE 20 PROMISES
+
+##### In order to save it for all the 20 users, like when you save it for an individual User, we need to resolve all the promises at the same time, for that we need another TRY AND CATCH
+
+```javascript
+//
+  const userPromises = Array(20)
+    .fill(null)
+    .map(() => {
+      const user = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        password: faker.internet.password(),
+        email: faker.internet.email(),
+      });
+
+      console.log(`We created a user with name ${user.firstName}`);
+
+      return user.save();
+    });
+//
+//
+  try {
+    await Promise.all(userPromises);
+    console.log(`All users are saved`);
+  } catch (error) {
+    console.log(error);
+  }
+//
+//
+
+
+})();
+
+```
+
+<br>
+<br>
+
+#### CLOSING THE CONNECTION after we are DONE!
+
+<p>In this example you will see that if you add the closing of the connection outside the ASYNC FUNCTION, it s going to show and ERROR,
+And the reason for that is due to the fact that since we are putting the closing of the connection in the global area, its taking as a priority, so thats why you have this error.</p>
+
+![mongoose_connection_closing_error4](img/close-connection_ERROR.gif)
+
+### THE SOLUTION
+
+- Just add the closing inside the ASYNC FUNCTION, like so:
+
+```javascript
+  const userPromises = Array(20)
+    .fill(null)
+    .map(() => {
+      const user = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        password: faker.internet.password(),
+        email: faker.internet.email(),
+      });
+
+      console.log(`We created a user with name ${user.firstName}`);
+
+      return user.save();
+    });
+
+  try {
+    await Promise.all(userPromises);
+    console.log(`All users are saved`);
+  } catch (error) {
+    console.log(error);
+  }
+
+
+  console.log("we are closing the mongoose connection...bye");
+
+  // Since we named mongoose.connect("mongodb: in the beginning you can end up with the same
+  mongoose.connection.close();
+})();
+
+```
+
+![preview4](img/20fake_4.jpg)
+
+<p>Now it will work because all of the stuff inside the ASYNC function, is going to be checked one by one until we reach  the end of it</p>

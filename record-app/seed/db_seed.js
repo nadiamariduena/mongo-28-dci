@@ -69,6 +69,25 @@ console.log("all your previous data will be purged");
 
       return user.save();
     });
+
+  try {
+    await Promise.all(userPromises);
+    console.log(`All users are saved`);
+  } catch (error) {
+    console.log(error);
+  }
+
+  /* And then at the end after we are done with the 20 promises
+ above, we would like to close the connection.
+
+ So if we want to close the mongoose connection what we have to do?
+
+
+*/
+
+  console.log("we are closing the mongoose connection...bye");
+
+  // Since we named mongoose.connect("mongodb: in the beginning you can end up with the same  mongoose.connection.close();
 })();
 
 //
