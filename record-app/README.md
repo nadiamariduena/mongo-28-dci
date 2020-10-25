@@ -139,3 +139,204 @@ mongoose.connect("mongodb://localhost/fbw28-record-store", {
   useCreateIndex: true,
 });
 ```
+
+<br>
+<br>
+
+<hr>
+
+<br>
+<br>
+
+## 🌱 🌱 SEED SCRIPT 🌱 🌱
+
+<br>
+
+###### The Job of the SEED script will be to empty the data base of the data we have and then it will create 20 users for new users for example, or 20 new records etc etc.
+
+<p>IT WILL BE AN SCRIPT inside the project but will work independently and we will be able to run in like with "npm run seed or something"</p>
+
+<p>The SEED script will connect to the data base and will use the USER module we have to create 20 users then it will store it and then bye</p>
+
+##### start
+
+- make a new faolder and call it seed
+
+- create a file inside the seed folder, call it: db_seed.js
+
+- inside the file add the following to test the server on SEED
+
+```javascript
+// db_seed.js
+console.log("you are running the seed script");
+console.log("all your previous data will be purged");
+```
+
+- but before testing it add the script to run it, like so:
+
+```javascript
+// package.json
+ "seed": "node seed/db_seed.js"
+
+```
+
+- Now run npm run seed
+
+<br>
+<br>
+
+##### ADD FAKER
+
+<p>faker.js - generate massive amounts of fake data in the browser and node.js</p>
+
+```javascript
+npm i faker
+```
+
+<p>From faker we will need fake names, lastNames, passwords etc for the fake users.</p>
+
+#### Once you installed faker follow the steps below:
+
+- We connect to the database
+- we purge all the users
+- we create 20 fake users
+- we close the db connection
+
+<br>
+
+##### 1\_ We CONNECT to the database
+
+<p>Go to the app.js and copy all what you need to set up the connection to the server, then hide all related to start the server, as you are not going to start a NEW one but just CONNECT to the existent one</p>
+
+<br>
+
+```javascript
+// We connect to the database
+
+//HIDE** const express = require("express");
+//  we dont need express because we are not going to start the server
+//
+//HIDE** const cors = require("cors"); the same for cors, we are not going to the server
+//HIDE** const app = express();
+//HIDE**  const port = 5000;
+
+//                               CONNECT TO DataBase
+//
+const mongoose = require("mongoose");
+//
+//
+mongoose.connect("mongodb://localhost/fbw28-record-store", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+
+db.once("open", () => {
+  console.log(`You are connected to the DB. Seed will start now`);
+});
+
+//
+// --------------------------
+```
+
+<br>
+
+##### 2\_ WE PURGE all the users
+
+<p>The problem with the code below is that you have to be inside an asynchronous function, otherwise it can be that it will not work</p>
+
+<br>
+
+```javascript
+// NO ASYNC FUNCTION
+// --------------------------
+//
+//  we purge all the users
+
+try {
+  // if you want to await stuff you have to be inside an async function
+  //   to do it , you have to use an IIFE (Self-invoking functions in js)
+  await User.deleteMany({});
+  console.log(`All users have been deleted...`);
+} catch (err) {
+  console.log(err);
+}
+
+//
+// --------------------------
+```
+
+```javascript
+// WITH ASYNC FUNCTION
+const mongoose = require("mongoose");
+const User = require("../models/User");
+
+console.log("you are running the seed script");
+console.log("all your previous data will be purged");
+
+//
+// --------------------------
+
+//                               CONNECT TO DataBase
+// IIFE function to do work with the async await
+
+(async function () {
+  //now that we are using an async function, the wait here will not complain:
+  //     await User.deleteMany({});
+  //
+  mongoose.connect("mongodb://localhost/fbw28-record-store", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  });
+
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "connection error:"));
+
+  db.once("open", () => {
+    console.log(`You are connected to the DB. Seed will start now`);
+  });
+
+  //
+  // --------------------------
+  //
+  //  we purge all the users
+
+  try {
+    // if you want to await stuff you have to be inside an async function
+    //   to do it , you have to use an IIFE (Self-invoking functions in js)
+    await User.deleteMany({});
+    console.log(`All users have been deleted...`);
+  } catch (err) {
+    console.log(err);
+  }
+
+  //
+  // we create 20 fake users
+  // we close the db connection
+})();
+
+//
+// --------------------------
+```
+
+#### AFTER setting up the async await function, go to the POSTman and test it
+
+<p>Under GET, type the following: </p>
+
+```javascript
+http://localhost:5000/users
+// TO SEE ALL THE CONTENT OF THE DATABSE
+```
+
+<p>Once you checked all the databases , go to the terminal in vs and type :<p>
+
+```javascript
+npm run seed
+// if it worked, all should be gone!
+```
+
+<p>if it worked, all should be gone! TO SEE if it worked go back to the postman and check it again<p>
