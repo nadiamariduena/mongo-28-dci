@@ -209,3 +209,108 @@ app.use(express.json());
 // for this:
 app.use(bodyParser());
 ```
+
+#### AFTER that run the server and go to post man to test if you still have the result:
+
+```javascript
+ {
+    "message": {
+        "name": "melooo"
+    }
+}
+```
+
+<br>
+<br>
+
+### INSTALL MONGO 🌱
+
+<br>
+
+#### I already have so i just have to type the following:
+
+```javascript
+// open the other terminal , type this:
+sudo systemctl status mongodb
+// then inside that other terminal open another tab
+// type this to use the shell, to create the databases:
+mongo
+```
+
+<br>
+
+#### Open an account in MONGO ATLAS
+
+```javascript
+https://www.mongodb.com/cloud/atlas/register
+```
+
+![rested](./src/img/install_atlas.jpg)
+
+#### Choose the Free option and the region
+
+![rested](./src/img/cluster-option_region.jpg)
+
+- Right now skip the 3 options after the regions as by default they give you the 512MB so click "Create Cluster" then wait for few minutes until is ready!
+
+<br>
+
+##### Once its READY you will have something like this
+
+![rested](./src/img/cluster-ready-default.jpg)
+
+##### ADD an IP address (we dont need it right now) , choose the "Allow access anywhere" and confirm.
+
+![rested](./src/img/add-a-IP-address.jpg)
+
+<br>
+
+- if the 'Add IP access List Entry' dont show try to connect yoou in the compass, it worked for me.
+
+- Once it is CONFIRMED , go to the CLUSTERS and if it s done it will give you the possibility to CONNECT, like in the image:
+
+<br>
+
+![rested](./src/img/cluster-connect.jpg)
+
+<br>
+<br>
+
+##### 🍧 🍧 CLICK on CONNECT 🍧 🍧
+
+### CREATE DATABASE | set up an user and a password
+
+![rested](./src/img/create-database.jpg)
+
+#
+
+#### CREATE a CONNECTION
+
+![rested](./src/img/create-connection.jpg)
+
+#### CONNECT your application
+
+- FOR THIS PROJECT select the one with the orange arrow
+
+- the green arrow is for when you want to use the shell to create the DB
+
+![rested](./src/img/connect-your-application.jpg)
+
+#### THE STRING you need to add in your project when connecting to the DB
+
+- select the one with the arrow
+
+![rested](./src/img/linkString_to-connect.jpg)
+
+- Example from the Wagowsky App (this is how you will use the STRING LINK)
+
+```javascript
+try {
+    const connection = await mongoose.connect(
+      "mongodb+srv://wagowsky:12345@trial.utxhq.mongodb.net/trial?retryWrites=true&w=majority",
+      // The question mark here: ?retry ,  THE QUESTION mark means that the QUERY starts here , like in the regex,
+      // the following is to be used in case of warnings (deprecation etc)
+      {
+```
+
+####
