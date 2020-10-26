@@ -7,6 +7,30 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  getOrdersByUser,
+} = require("../controllers/usersController");
+
+router.route("/").get(getAllUsers).post(addUser);
+
+router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+
+router.route("/:id/orders").get(getOrdersByUser);
+
+module.exports = router;
+
+/*
+
+BEFORE ******
+
+var express = require("express");
+var router = express.Router();
+
+const {
+  getAllUsers,
+  addUser,
+  getUser,
+  updateUser,
+  deleteUser,
 } = require("../controllers/usersController");
 
 // GET ALL RECORDS on route /records/
@@ -25,3 +49,4 @@ router.patch("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
 module.exports = router;
+*/

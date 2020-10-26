@@ -156,3 +156,15 @@ exports.deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getOrdersByUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const orders = await Order.find({ userId: id }); // this find({ userId: id }); is related to this :   const { id } = req.params;
+    if (!orders) throw new Error(`User ${id} has no orders yet`);
+    res.send(orders);
+  } catch (error) {
+    next(error);
+  }
+};

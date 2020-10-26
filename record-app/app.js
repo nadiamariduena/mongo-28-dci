@@ -55,6 +55,7 @@ db.once("open", () => {
 /** ROUTERS */
 const usersRouter = require("./routes/users");
 const recordsRouter = require("./routes/records");
+const ordersRouter = require("./routes/orders");
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
@@ -75,7 +76,10 @@ app.get("/", sayHello);
 // HOOK IN OUR ROUTERS (= CHILD APIs) into our main api (= app)
 app.use("/users", usersRouter);
 app.use("/records", recordsRouter);
-
+app.use("/orders", ordersRouter);
+//
+//
+//
 // MIDDLEWARE - how to pass on a request
 // on success: next()
 // on error:
