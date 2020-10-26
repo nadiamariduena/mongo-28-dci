@@ -286,6 +286,8 @@ https://www.mongodb.com/cloud/atlas/register
 
 #### CREATE a CONNECTION
 
+- type on the green button
+
 ![rested](./src/img/create-connection.jpg)
 
 #### CONNECT your application
@@ -313,4 +315,113 @@ try {
       {
 ```
 
-####
+- the password has to be added manually just like in the Wagowsky link where you see 12345
+
+#### COPY THE STRING LINK and go to Visual Studio and add the link but keep it hidden.
+
+```javascript
+env.config();
+// ADD THE STRING LINK BELOW the env.config();
+// MONGODB CONNECTION
+// mongodb+srv://root:<password>@cluster0.ik0cr.mongodb.net/<dbname>?retryWrites=true&w=majority
+```
+
+<br>
+
+#### NOW go to the mongoose official site and copy the following line:
+
+![rested](./src/img/mongoose-link1.jpg)
+
+```javascript
+mongoose.connect("mongodb://localhost:27017/test", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+```
+
+#### then add the library on top where all the requiring are
+
+```javascript
+const mongoose = require("mongoose");
+```
+
+<br>
+<br>
+
+#### MONGODB CONNECTION 🍧
+
+- replace this and add the STRING LINK here:
+
+```javascript
+//before
+.connect("mongodb://localhost:27017/test"
+// after
+.connect("mongodb+srv://root:<password>@cluster0.ik0cr.mongodb.net/<dbname>?retryWrites=true&w=majority"
+```
+
+#### It should look like this:
+
+```javascript
+mongoose
+  .connect(
+    "mongodb+srv://root:<password>@cluster0.ik0cr.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  ) //add this
+  .then(() => {
+    console.log("Database connected");
+  });
+```
+
+#### Notice the root
+
+- This root has to be added inside the .env file
+
+```javascript
+ .connect(
+    "mongodb+srv://root:<password>
+
+```
+
+### Like so
+
+- all this information was added while creating the cluster, only the "ecommerce" isnt clear from where he is adding it, but i guess it s the database he is going to create, lets see.
+
+```javascript
+PORT = 2000;
+// THE following 3 lines are connected to the cluster
+MONGO_DB_USER = root;
+MONGO_DB_PASSWORD = admin * 354;
+MONGO_DB_DATABASE = ecommerce;
+```
+
+### NOW add the user, password and database. REPLACE the following:
+
+```javascript
+- root:<password>
+- cluster0.ik0cr.mongodb
+- <dbname>?retryWrites
+
+```
+
+#### IT SHOULD LOOK LIKE THIS:
+
+- DONT FORGET to add the template literals (``) to introduce the STRING LINK
+
+```javascript
+// MONGODB CONNECTION
+
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.ik0cr.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Database connected");
+  });
+```

@@ -4,7 +4,8 @@
   "description": "this is my first ecommerce project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/index.server.js"
+    "start": "nodemon ./src/index.server.js",
+    "killnode": "lsof -ti :5000 | xargs kill "
   },
   "keywords": [
     "ecommerce",
