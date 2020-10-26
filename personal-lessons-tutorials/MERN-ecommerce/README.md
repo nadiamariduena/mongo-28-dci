@@ -68,6 +68,27 @@ const env = require("dotenv");
 env.config();
 ```
 
+<br>
+
+- env file lets you customize your individual working environment variables. ... env file contains the individual user environment variables that override the variables set in the /etc/environment file. You can customize your environment variables as desired by modifying your . env file.
+
+#### Example (you will see this later)
+
+```javascript
+//env file
+PORT=2000
+//  YOU WILL SEE THIS LATER
+MONGO_DB_USER=root
+MONGO_DB_PASSWORD=admin789 //fake
+MONGO_DB_DATABASE=mern-ecommerce-tutorial
+
+//server
+//  HOW YOU WILL USE them in the server
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.ik0cr.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
+```
+
 #### NOW test the PORT again, type this:
 
 ```javascript
@@ -84,7 +105,7 @@ server is running on port 2000
 <br>
 <br>
 
-#### CREATE the first hello API
+## CREATE THE FIRST "hello" API 🐌
 
 ```javascript
 //
@@ -95,14 +116,14 @@ app.get("/", (req, res, next) => {
 });
 ```
 
-#### Test it in postman, type this:
+##### Test it in postman, type this:
 
 ```javascript
 // get method
 localhost:2000/
 ```
 
-#### NOW add this:
+##### NOW add this:
 
 ```javascript
 // POST
@@ -114,7 +135,7 @@ app.post("/data", (req, res, next) => {
 //
 ```
 
-### INSTALL nodemon to avoid typing all the time the stuff to init the SERVER:
+##### INSTALL nodemon to avoid typing all the time the stuff to init the SERVER:
 
 ```javascript
 npm i nodemon
@@ -129,7 +150,7 @@ npm i nodemon
   }
 ```
 
-### ONCE nodemon has been installed, add the script commands to use nodemon:
+##### ONCE nodemon has been installed, add the script commands to use nodemon:
 
 ```javascript
   "scripts": {
@@ -140,7 +161,7 @@ npm i nodemon
 server is running on port 2000
 ```
 
-#### NOW check the postman, type :
+##### NOW check the postman, type :
 
 ```javascript
 // on POST method, type the following:
@@ -158,7 +179,7 @@ localhost: 2000 / data;
  */
 ```
 
-#### Add the MIDDLEWARE to send data
+##### Add the MIDDLEWARE to send data
 
 ```javascript
 app.use(express.json());
@@ -210,7 +231,7 @@ app.use(express.json());
 app.use(bodyParser());
 ```
 
-#### AFTER that run the server and go to post man to test if you still have the result:
+##### AFTER that run the server and go to post man to test if you still have the result:
 
 ```javascript
  {
@@ -222,12 +243,17 @@ app.use(bodyParser());
 
 <br>
 <br>
+<hr>
+<br>
+<br>
 
-### INSTALL MONGO 🌱
+# INSTALL MONGO 🌱
 
 <br>
 
-#### I already have so i just have to type the following:
+##### I already have it, so i just have to type the following:
+
+<br>
 
 ```javascript
 // open the other terminal , type this:
@@ -237,9 +263,7 @@ sudo systemctl status mongodb
 mongo
 ```
 
-<br>
-
-#### Open an account in MONGO ATLAS
+##### Open an account in MONGO ATLAS
 
 ```javascript
 https://www.mongodb.com/cloud/atlas/register
@@ -247,7 +271,7 @@ https://www.mongodb.com/cloud/atlas/register
 
 ![rested](./src/img/install_atlas.jpg)
 
-#### Choose the Free option and the region
+##### Choose the Free option and the region
 
 ![rested](./src/img/cluster-option_region.jpg)
 
@@ -276,15 +300,17 @@ https://www.mongodb.com/cloud/atlas/register
 <br>
 <br>
 
-##### 🍧 🍧 CLICK on CONNECT 🍧 🍧
+<br>
 
-### CREATE DATABASE | set up an user and a password
+#### 🍧 🍧 CLICK on CONNECT 🍧 🍧
+
+##### CREATE DATABASE | set up an user and a password
+
+<br>
 
 ![rested](./src/img/create-database.jpg)
 
-#
-
-#### CREATE a CONNECTION
+##### CREATE a CONNECTION
 
 - type on the green button
 
@@ -425,3 +451,18 @@ mongoose
     console.log("Database connected");
   });
 ```
+
+#### NOW TEST THE SERVER
+
+- npm start
+
+- You should have something like this:
+
+```javascript
+server is running on port 2000
+Database connected
+
+
+```
+
+### CONGRATS!!! you have succesfully connected to the ATLAS 🌴
