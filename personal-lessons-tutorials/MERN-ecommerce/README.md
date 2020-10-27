@@ -459,6 +459,7 @@ mongoose
 - You should have something like this:
 
 ```javascript
+// RESULT ON THE CONSOLE
 server is running on port 2000
 Database connected
 
