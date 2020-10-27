@@ -467,3 +467,184 @@ Database connected
 ```
 
 ### CONGRATS!!! you have succesfully connected to the ATLAS 🌴
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+### Create 3 folders inside the "src" folder :
+
+- routes
+- models
+- controller
+
+##### Inside the "routes" folder, create a file called user.js (this file will be named "auth" in the future)
+
+- Add the following inside the user.js:
+
+```javascript
+const express = require("express");
+const router = express.Router();
+
+router.post("/signin", (req, res) => {
+  // creating the route SIGN IN
+});
+//
+//
+//
+router.post("/signup", (req, res) => {
+  // creating the route SIGN UP
+});
+
+// export the content of this file
+module.exports = router;
+```
+
+<br>
+
+#### NEXT | import the routes inside the index.server.js :
+
+```javascript
+// -------------
+//    ROUTES
+// -------------
+
+const userRoutes = require("./routes/user");
+```
+
+##### DELETE the following:
+
+```javascript
+//GET
+app.get("/", (req, res, next) => {
+  res.status(200).json({
+    message: "Hello from Server",
+  });
+});
+//
+//
+// POST
+app.post("/data", (req, res, next) => {
+  res.status(200).json({
+    message: req.body,
+  });
+});
+```
+
+##### REPLACE IT WITH THIS:
+
+```javascript
+//------------
+// CREATE the MIDDLEWARE to manipulate our data
+//------------
+//
+app.use("/api", userRoutes);
+/* 
+                app.use("/api", userRoutes); 
+
+this userRoute is the data connected to 
+the file user.js in line 11:  
+
+          const userRoutes = require("./routes/user");
+
+*/
+
+//
+```
+
+##### NOW create the SCHEMAS inside the "MODEL" file "user.js":
+
+```javascript
+const mongoose = require("mongoose");
+
+/*
+
+
+IN THIS FILE YOU WILL DEFINE the STRUCTURE of 
+what the user will FILL inside the fields of the POSTMAN(production)
+
+
+
+
+*/
+const userSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true, //trim will remove any space between the firstName
+      min: 3,
+      max: 20,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true, //trim will remove any space between the firstName
+      min: 3,
+      max: 20,
+    },
+    username: {
+      type: String,
+      required: true,
+      trim: true, //trim will remove any space between the firstName
+      unique: true, //any username should be unique
+      index: true, // is necessary , so that we can QUERY based on the userName
+      lowercase: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true, //trim will remove any space between the firstName
+      unique: true, //any username should be unique
+      lowercase: true,
+    },
+    hash_password: {
+      type: String,
+      required: true,
+      //   YOU CAN specify the LENGTH
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"], //options
+      default: "admin", //here you setting up what the user's role will be
+    },
+    contactNumber: {
+      type: String,
+    },
+    profilePicture: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
+userSchema.virtual("password").set(function (password) {
+  // INSTALL THE LIBRARY
+  //
+});
+
+module.exports = mongoose.model("User", userSchema);
+```
+
+#### ONE LAST thing before completing the SCHEMA above
+
+- You NEED to install the following LIBRARY, this will make your password more secure.
+
+```javascript
+npm install --save bcrypt
+
+```
+
+[<img src="./src/img/bcrypt1.jpg">](https://youtu.be/O6cmuiTBZVs)
+
+<!-- ![rested](./src/img/bcrypt1.jpg) -->
+
+#### what is BCRYPT?
+
+###### General Hash Function Background
+
+- In general, a hash algorithm or function takes data (i.e., the password) and maps to "fixed-size values," or creates a "digital fingerprint," or hash, of it. This hash is not exactly the same as the Ruby class, but they are similar. A hashing algorithm is like a key-value pair of passwords and their encryptions, but you wouldn't want to store or save them like that! The process is never truly "reversible," in the sense that if I hashed a list of passwords, and all you had was a list of unique crypts, the only way you could "hack" my passwords would be through something like brute force search. But you could never take a hashed value and return it to its original form!
+
+[BCrypt Explained](https://dev.to/sylviapap/bcrypt-explained-4k5c)
