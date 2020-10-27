@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 /*
 
 
@@ -62,7 +62,18 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.virtual("password").set(function (password) {
-  // this.hash_password =
+  this.hash_password = bcrypt.hashSync(password, 10);
 });
+//
+// ------------
+// methods
+// ------------
+userSchema.methods = {
+  authenticate: function (password) {
+    return bcrypt.compareSync(password, this.hash_password);
+  },
+};
+//
 
 module.exports = mongoose.model("User", userSchema);
+// YOU WILL PASS ALL the info from this file, into "User"  here: model("User", userSchema);

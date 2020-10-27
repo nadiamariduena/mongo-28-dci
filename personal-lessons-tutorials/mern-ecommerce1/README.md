@@ -374,7 +374,7 @@ const mongoose = require("mongoose");
 <br>
 <br>
 
-#### MONGODB CONNECTION 🍧
+## MONGO DB CONNECTION 🍧
 
 - replace this and add the STRING LINK here:
 
@@ -385,7 +385,7 @@ const mongoose = require("mongoose");
 .connect("mongodb+srv://root:<password>@cluster0.ik0cr.mongodb.net/<dbname>?retryWrites=true&w=majority"
 ```
 
-#### It should look like this:
+##### It should look like this:
 
 ```javascript
 mongoose
@@ -401,7 +401,7 @@ mongoose
   });
 ```
 
-#### Notice the root
+##### Notice the root
 
 - This root has to be added inside the .env file
 
@@ -411,7 +411,7 @@ mongoose
 
 ```
 
-### Like so
+##### Like so
 
 - all this information was added while creating the cluster, only the "ecommerce" isnt clear from where he is adding it, but i guess it s the database he is going to create, lets see.
 
@@ -423,7 +423,7 @@ MONGO_DB_PASSWORD = admin * 354;
 MONGO_DB_DATABASE = ecommerce;
 ```
 
-### NOW add the user, password and database. REPLACE the following:
+#####NOW add the user, password and database. REPLACE the following:
 
 ```javascript
 - root:<password>
@@ -432,7 +432,7 @@ MONGO_DB_DATABASE = ecommerce;
 
 ```
 
-#### IT SHOULD LOOK LIKE THIS:
+##### IT SHOULD LOOK LIKE THIS:
 
 - DONT FORGET to add the template literals (``) to introduce the STRING LINK
 
@@ -452,7 +452,7 @@ mongoose
   });
 ```
 
-#### NOW TEST THE SERVER
+##### NOW TEST THE SERVER
 
 - npm start
 
@@ -474,7 +474,11 @@ Database connected
 <br>
 <br>
 
-### Create 3 folders inside the "src" folder :
+## :avocado: SETTING UP THE ROUTES AND THE SCHEMAS :avocado:
+
+<br>
+
+#### Create 3 folders inside the "src" folder :
 
 - routes
 - models
@@ -630,7 +634,7 @@ module.exports = mongoose.model("User", userSchema);
 
 #### ONE LAST thing before completing the SCHEMA above
 
-- You NEED to install the following LIBRARY, this will make your password more secure.
+- You NEED TO INSTALL the following LIBRARY, this will make your password more secure.
 
 ```javascript
 npm install --save bcrypt
@@ -648,3 +652,53 @@ npm install --save bcrypt
 - In general, a hash algorithm or function takes data (i.e., the password) and maps to "fixed-size values," or creates a "digital fingerprint," or hash, of it. This hash is not exactly the same as the Ruby class, but they are similar. A hashing algorithm is like a key-value pair of passwords and their encryptions, but you wouldn't want to store or save them like that! The process is never truly "reversible," in the sense that if I hashed a list of passwords, and all you had was a list of unique crypts, the only way you could "hack" my passwords would be through something like brute force search. But you could never take a hashed value and return it to its original form!
 
 [BCrypt Explained](https://dev.to/sylviapap/bcrypt-explained-4k5c)
+
+<br>
+<br>
+
+##### AFTER YOU INSTALLED BSCRYPT
+
+- add the missing part to the SCHEMA
+
+```javascript
+// user.js  models folder
+// IMPORT the library
+const bcrypt = require("bcrypt");
+//
+//
+// ----- i added just the end of the file in this section
+  { timestamps: true }
+);
+
+userSchema.virtual("password").set(function (password) {
+  this.hash_password = bcrypt.hashSync(password, 10);
+  //
+  //
+  //   this correspond to the salt: ...ord, 10);
+  // you are giving it a value from 1 to 10
+  // SALT : it serves merely to prevent two users with the same password getting the same hash.
+});
+// ------------
+// methods
+// ------------
+
+module.exports = mongoose.model("User", userSchema);
+
+```
+
+##### ADD the method
+
+```javascript
+//
+// ------------
+// methods
+// ------------
+userSchema.methods = {
+  authenticate: function (password) {
+    return bcrypt.compareSync(password, this.hash_password);
+  },
+};
+//
+module.exports = mongoose.model("User", userSchema);
+// YOU WILL PASS ALL the info from this file, into "User"  here: model("User", userSchema);
+```
