@@ -22,6 +22,7 @@ mongoose
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     }
   )
   .then(() => {
@@ -31,7 +32,8 @@ mongoose
 // app.use(express.json()); //before the body parser
 app.use(bodyParser());
 // CREATE the MIDDLEWARE to manipulate our data
-app.use("/api", userRoutes); 
+// /api is just a prefixe like a path
+app.use("/api", userRoutes);
 // this userRoute is the data connected to the file user.js inside the ROUTES in line 11:  const userRoutes = require("./routes/user");
 
 //
