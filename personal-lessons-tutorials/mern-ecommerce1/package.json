@@ -1,0 +1,27 @@
+{
+  "name": "mern-ecommerce1",
+  "version": "1.0.0",
+  "description": "```javascript // installing express and the validator , validators are going to validate incoming request npm install --save express express-validator // mongoose for schemas queries etc npm i mongoose",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.server.js",
+    "killnode": "lsof -ti :5000 | xargs kill "
+  },
+  "keywords": [
+    "ecommerce",
+    "mern",
+    "project",
+    "backend",
+    "api"
+  ],
+  "author": "nadia mariduena",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "mongoose": "^5.10.10",
+    "nodemon": "^2.0.6"
+  }
+}
