@@ -15,6 +15,8 @@ env.config();
 // app.listen(PORT, () => console.log("Server running and on fire"));
 // --------------------
 
+//           CREATE THE MONGOOSE CONNECTION
+
 mongoose
   .connect("mongodb://localhost/blog_db", {
     // the following lines will prepare you for any eventual warning
@@ -26,58 +28,9 @@ mongoose
   .then(() => console.log("Connected to DB succesfully"))
   .catch((err) => console.log("Connection failed", err.message));
 
-// Create the MODELs and the respective SCHEMAS
-
-/*-----------------
-
-
-    **  YOU CAN MAke SCHEMA FOR A COMMENT **
-      
-          const CommentSchema = new Schema({
-                  text: {
-                    type: String,
-                    required: true,
-                  },
-        });
-      
-      the schema above is 
-      connected to the following :
-            },
-            // Posts can have 0 comments or many
-            comments: [CommentSchema],
-          });
-
-                          *****           ***
-
-          After you have set up the comment schema , you will need
-          to create the MODULE, THE MODEL is going to set/store a RECORD 
-          of this structure in the database.
-
-          1 add the model , inside the curly brackets:
-
-                  const { Schema, model } = mongoose; 
-
-          2 DEFINE A MODEL to store a record of the schema
-
-          const Post = model("Post", PostSchema);
-
-          3 now you can do operations , DEFINE a SEED
-
-                app.get("/seed", (req, res, next) => {
-
-
-                      const post = new Post({
-
-                  })
-                })
-
-
---------------------*/
-
-//
-// EMBEDDING : incrustación -------------
-//
-const CommentSchema = new Schema({
+//1 EMBEDDING : incrustación -------------
+//before : const CommentSchema = new Schema({
+const AnswerSchema = new Schema({
   text: {
     type: String,
     required: true,
@@ -85,7 +38,7 @@ const CommentSchema = new Schema({
 });
 
 //
-// EXAMPLE : EMBEDDING / NESTING A SCHEMA
+//2 EXAMPLE : EMBEDDING / NESTING A SCHEMA
 // the library: Schema({
 const PostSchema = new Schema({
   title: {
@@ -97,28 +50,42 @@ const PostSchema = new Schema({
     required: true,
   },
   // Posts can have 0 comments or many
-  comments: [CommentSchema],
+  answers: [AnswerSchema],
   //here you can have multiple comments, just like [CommentSchema]
 });
 // --------------------------------------
 //
 //
-//  KEEPING A RECORD OF THE SCHEMA STRUCTURE with the model
+//3  KEEPING A RECORD OF THE SCHEMA STRUCTURE with the model
 const Post = model("Post", PostSchema);
 //
-//
-app.get("/seed", (req, res, next) => {
+//4
+app.get("/seed", async (req, res, next) => {
   //
   //
+  // 8 CLEAN all with DELETE MANY
+  await Post.deleteMany(); //delete all collections from
+
+  //5
   const post = new Post({
     title: "Mongoose sucks - can anyone HELP?",
     author: "Me",
-    comments: [
+    answers: [
       {
         text: "Mongoose is not that hard, Try harder",
       },
+      {
+        text: "The author is right, Mongoose sucks, there s no point!",
+      },
     ],
   });
+
+  // ASYNC AWAIT , add the async here: app.get("/seed", async (req, res, next) => {
+  let postDB = await post.save();
+  //
+  //
+  // 7
+  res.send(postDB);
 });
 /*
 
