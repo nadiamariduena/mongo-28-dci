@@ -9,12 +9,6 @@ const { Schema, model } = mongoose; //add the functions,  import this otherwise 
 //  2 PORT related
 env.config();
 
-//--------------------
-// Way without .env
-// let PORT = 5000;
-// app.listen(PORT, () => console.log("Server running and on fire"));
-// --------------------
-
 //           CREATE THE MONGOOSE CONNECTION
 
 mongoose
@@ -66,26 +60,41 @@ app.get("/seed", async (req, res, next) => {
   // 8 CLEAN all with DELETE MANY
   await Post.deleteMany(); //delete all collections from
 
-  //5
-  const post = new Post({
-    title: "Mongoose sucks - can anyone HELP?",
-    author: "Me",
-    answers: [
-      {
-        text: "Mongoose is not that hard, Try harder",
-      },
-      {
-        text: "The author is right, Mongoose sucks, there s no point!",
-      },
-    ],
-  });
+  //5 check the readme as before it was like this for only 1 post:
+  // const post = new Post({})
+  const posts = await Post.insertMany([
+    {
+      title: "post 1 sucks - can anyone HELP?",
+      author: "Me",
+      answers: [
+        {
+          text: "Mongoose is not that hard, Try harder",
+        },
+        {
+          text: "The author is right, Mongoose sucks, there s no point!",
+        },
+      ],
+    },
+    {
+      title: "post 2 sucks - can anyone HELP?",
+      author: "Me",
+      answers: [
+        {
+          text: "Because redux is more performant",
+        },
+        {
+          text: "YEAH 2 POST after insertMany",
+        },
+      ],
+    },
+  ]);
 
-  // ASYNC AWAIT , add the async here: app.get("/seed", async (req, res, next) => {
-  let postDB = await post.save();
+  // // ASYNC AWAIT , add the async here: app.get("/seed", async (req, res, next) => {
+  // let postDB = await post.save();
   //
   //
   // 7
-  res.send(postDB);
+  res.send(posts);
 });
 /*
 

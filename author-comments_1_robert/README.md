@@ -257,10 +257,8 @@ AND TERMINOLOGY
 - DOCUMENT => is JAVASCRIPT OBJECT STORED in A DATABASE
 - COLLECTION => ARRAY of JS Objects stored in a DATABASE
 
-
 <br>
 <br>
-
 
 ##### TYPE the following inside the console
 
@@ -271,9 +269,105 @@ sudo systemctl status mongodb
 // type this to use the shell, to create the databases (only if you need it):
 mongo
 ```
+
 <br>
 <br>
 
 #### Once connected, GO TO MONGO and check if you have the new collection 🌱
 
 ![rested](./img/preview_post-collection.jpg)
+
+<br>
+<br>
+
+#### TO CREATE SEVERAL POSTS
+
+- Example of an individual post
+
+```javascript
+// INDOVIDUAL POST
+const post = new Post({
+  title: "Mongoose sucks - can anyone HELP?",
+  author: "Me",
+  answers: [
+    {
+      text: "Mongoose is not that hard, Try harder",
+    },
+    {
+      text: "The author is right, Mongoose sucks, there s no point!",
+    },
+  ],
+});
+```
+
+- SEVERAL POSTS
+
+```javascript
+// SEVERAL POSTS
+const post = Post.insertMany([
+  {
+    title: "post 1 sucks - can anyone HELP?",
+    author: "Me",
+    answers: [
+      {
+        text: "Mongoose is not that hard, Try harder",
+      },
+      {
+        text: "The author is right, Mongoose sucks, there s no point!",
+      },
+    ],
+  },
+  {
+    title: "post 2 sucks - can anyone HELP?",
+    author: "Me",
+    answers: [
+      {
+        text: "Because redux is more performant",
+      },
+      {
+        text: "YEAH 2 POST after insertMany",
+      },
+    ],
+  },
+]);
+```
+
+#### We dont need this anymore
+
+```javascript
+// ASYNC AWAIT , add the async here: app.get("/seed", async (req, res, next) => {
+let postDB = await post.save();
+```
+
+#### REPLACE post for posts
+
+```javascript
+  const posts = Post.insertMany([
+```
+
+#### SINCE you DELETED the await, you will have to add it here:
+
+- OTHERWISE it will never stop loading
+
+```javascript
+  const posts = await Post.insertMany([
+```
+
+#### REPLACE and send this instead
+
+- REPLACE post for posts
+
+```javascript
+// BEFORE
+// 7
+res.send(postDB);
+//   AFTER
+// 7
+res.send(posts);
+```
+
+#### TEST IT in the browser
+
+- type this: http://localhost:5000/seed
+
+![rested](./img/preview-several-posts.gif)
