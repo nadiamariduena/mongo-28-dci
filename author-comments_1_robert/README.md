@@ -248,8 +248,32 @@ app.get("/blogpost/:id", (req, res, next) => {
 });
 ```
 
-###### TERMINOLOGY
+###### RESULT
 
 ![rested](./img/TERMINOLOGY_AN_OBJECT.jpg)
 
--
+AND TERMINOLOGY
+
+- DOCUMENT => is JAVASCRIPT OBJECT STORED in A DATABASE
+- COLLECTION => ARRAY of JS Objects stored in a DATABASE
+
+
+<br>
+<br>
+
+
+##### TYPE the following inside the console
+
+```javascript
+// open the other terminal , type this:
+sudo systemctl status mongodb
+// then inside that other terminal open another tab
+// type this to use the shell, to create the databases (only if you need it):
+mongo
+```
+<br>
+<br>
+
+#### Once connected, GO TO MONGO and check if you have the new collection 🌱
+
+![rested](./img/preview_post-collection.jpg)

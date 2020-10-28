@@ -25,7 +25,7 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => console.log("Connected to DB succesfully"))
+  .then(() => console.log("Connected to DB successfully"))
   .catch((err) => console.log("Connection failed", err.message));
 
 //1 EMBEDDING : incrustación -------------
@@ -59,7 +59,7 @@ const PostSchema = new Schema({
 //3  KEEPING A RECORD OF THE SCHEMA STRUCTURE with the model
 const Post = model("Post", PostSchema);
 //
-//4
+//4 SEED
 app.get("/seed", async (req, res, next) => {
   //
   //
