@@ -353,7 +353,7 @@ let postDB = await post.save();
   const posts = await Post.insertMany([
 ```
 
-#### REPLACE and send this instead
+#### REPLACE send , type this instead
 
 - REPLACE post for posts
 
@@ -371,3 +371,192 @@ res.send(posts);
 - type this: http://localhost:5000/seed
 
 ![rested](./img/preview-several-posts.gif)
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+#### THE HARD CODED (changes)
+
+<br>
+
+##### REPLACE blogpost for posts
+
+```javascript
+// request a blog post by ID
+//
+// before
+app.get("/blogpost/:id", (req, res, next) => {
+//
+// after
+// with this you will be able to grab the "comments" data
+app.get("/posts/:id", (req, res, next) => {
+```
+
+##### DELETE THE stuff inside the res.send({
+
+```javascript
+res.send({
+  //   the id of the user, the id's inside the user are the id's of his posts
+  id: "123",
+  // title
+  title: "Most efficient structure of mongose Schema",
+  answers: [
+    { _id: 1, title: "I think mongoose POPULATE will help you." },
+    {
+      _id: 2,
+      title:
+        "Please look this Models and queries that can help you to build your schema",
+    },
+  ],
+});
+```
+
+##### IT SHOULD look like this:
+
+```javascript
+// request a blog post by ID
+
+res.send({
+  /*
+
+
+
+
+
+*/
+});
+```
+
+##### TO GRAB DATA by ID
+
+```javascript
+// 2
+// create the route where you will fetch all the posts
+app.get("/posts", async (req, res, next) => {
+  let posts = await Post.find();
+
+  res.send(posts);
+});
+
+// 1
+// request a blog post by ID
+app.get("/posts/:id", async (req, res, next) => {
+  //
+  let { id } = req.params; // grab a id from the URL
+  // USE the find() method to grab a specific post
+  //  await Post.findOne({ email: "rob@dci.org"})
+  let post = await Post.findById(id);
+  res.send(post);
+  //   --------
+});
+```
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+### MODIFY THE AUTHOR 🐯
+
+- Author should not longer have the single "String" like so:
+
+```javascript
+  author: {
+    type: String,
+    required: true,
+  },
+```
+
+<br>
+
+##### CREATE a SCHEMA for the new info of the Author
+
+- the author should have : username, email
+
+```javascript
+// ----------------------
+// author schema
+// ----------------------
+const AuthorSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: String,
+});
+```
+
+#### REPLACE THIS:
+
+```javascript
+// REPLACE THIS :
+const PostSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+
+  answers: [AnswerSchema],
+  //here you can have multiple AnswerS, just like [AnswerSchema]
+});
+
+//
+//  FOR THIS
+//
+
+const PostSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
+    AuthorSchema,
+  },
+
+  answers: [AnswerSchema],
+  //here you can have multiple AnswerS, just like [AnswerSchema]
+});
+```
+
+##### REPLACE THE FOLLOWING FIELDS THAT CONCERN THE "AUTHOR"
+
+- add : username, email
+
+```javascript
+const posts = await Post.insertMany([
+  {
+    title: "post 1 sucks - can anyone HELP?",
+    author: { name: "Ludovic", email: "rob@wha.com" },
+    answers: [
+      {
+        text: "Mongoose is not that hard, Try harder",
+      },
+      {
+        text: "The author is right, Mongoose sucks, there s no point!",
+      },
+    ],
+  },
+  {
+    title: "post 2 sucks - can anyone HELP?",
+    author: { name: "Vancis" },
+    answers: [
+      {
+        text: "Because redux is more performant",
+      },
+      {
+        text: "YEAH 2 POST after insertMany",
+      },
+    ],
+  },
+]);
+```

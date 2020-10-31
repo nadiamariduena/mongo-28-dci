@@ -1,0 +1,20 @@
+{
+  "name": "mongodb_introduction",
+  "version": "1.0.0",
+  "description": "- what is MONGO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mongo",
+    "mongoose",
+    "tutorial",
+    "recap"
+  ],
+  "author": "nadia",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.10.11"
+  }
+}

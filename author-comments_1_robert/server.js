@@ -1,19 +1,15 @@
 const express = require("express");
-//1 PORT related,  install the .env   npm i dotenv
-const env = require("dotenv");
 const app = express();
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose; //add the functions,  import this otherwise the schema will not work
+const { Schema, model } = mongoose;
+
+let PORT = 5000;
+app.listen(PORT, () => console.log("Served started up"));
+// ----------------------
+
 //
-// environment variable or you can say constant
-//  2 PORT related
-env.config();
-
-//           CREATE THE MONGOOSE CONNECTION
-
 mongoose
   .connect("mongodb://localhost/blog_db", {
-    // the following lines will prepare you for any eventual warning
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -21,81 +17,125 @@ mongoose
   })
   .then(() => console.log("Connected to DB successfully"))
   .catch((err) => console.log("Connection failed", err.message));
+// ----------------------
 
-//1 EMBEDDING : incrustación -------------
-//before : const CommentSchema = new Schema({
+// Things we need: Blog Posts, Comments
+
+// Comment structure: { text: "abc", username: 'efg }
+// Author structure: username, email
+// Post -> can have 0 up to many comments
+
 const AnswerSchema = new Schema({
-  text: {
-    type: String,
-    required: true,
-  },
+  text: { type: String, required: true },
 });
 
-//
-//2 EXAMPLE : EMBEDDING / NESTING A SCHEMA
-// the library: Schema({
-const PostSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
+const AuthorSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    email: String,
   },
-  author: {
-    type: String,
-    required: true,
+  {
+    versionKey: false,
+  }
+);
+
+// EXAMPLE: EMBEDDING / NESTING A SCHEMA
+const PostSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    author: {
+      // REFERENCING a document!
+      type: mongoose.ObjectId,
+      ref: "Author", // => this tells mongoose WHERE to look for the document with the given ID
+    },
+    // author: AuthorSchema, // Embedding the author directly into the post
+    answers: [AnswerSchema], // a post can have MULTIPLE comments
   },
-  // Posts can have 0 comments or many
-  answers: [AnswerSchema],
-  //here you can have multiple comments, just like [CommentSchema]
-});
-// --------------------------------------
-//
-//
-//3  KEEPING A RECORD OF THE SCHEMA STRUCTURE with the model
-const Post = model("Post", PostSchema);
-//
-//4 SEED
+  {
+    versionKey: false,
+  }
+);
+
+const Author = model("Author", AuthorSchema); // Author => equivalent: collection "authors" in MongoDB
+const Post = model("Post", PostSchema); // Post => equivalent: collection "posts"
+
 app.get("/seed", async (req, res, next) => {
-  //
-  //
-  // 8 CLEAN all with DELETE MANY
-  await Post.deleteMany(); //delete all collections from
+  await Author.deleteMany(); //
+  await Post.deleteMany(); // deletes all records from Post collection
 
-  //5 check the readme as before it was like this for only 1 post:
-  // const post = new Post({})
+  let authors = await Author.insertMany([
+    { name: "Me", email: "rob@dci.what" },
+    { name: "Vadim" },
+  ]);
+
+  /** this it what MongoDB will return to us => the data we inserted + IDs (!) for every record
+   * { _id: 12345, name: "Me", email: "rob@dci.what" },
+     { _id: 67890, name: "Vadim" } 
+     // = authors
+   */
+
+  // => insertMany creates an array of documents in MongoDB
   const posts = await Post.insertMany([
     {
-      title: "post 1 sucks - can anyone HELP?",
-      author: "Me",
+      title: "Mongoose sucks - can anyone help?",
+      author: authors[0]._id,
+      answers: [
+        { text: "Mongoose is not that bad. Try harder!" },
+        { text: "The author is right, Mongoose sucks, there is no point!" },
+      ],
+    },
+    {
+      title: "Redux sucks - why is it still used that often?",
+      author: authors[1]._id,
       answers: [
         {
-          text: "Mongoose is not that hard, Try harder",
+          text:
+            "Because Redux is more performant. We always need best performance",
         },
         {
-          text: "The author is right, Mongoose sucks, there s no point!",
+          text:
+            "Yeah, but in 95% of apps you actually cannot tell the difference!",
         },
       ],
     },
     {
-      title: "post 2 sucks - can anyone HELP?",
-      author: "Me",
+      title:
+        "US & NSA suck - who is going to change that? Stand up, you sheep people",
+      author: authors[1]._id,
       answers: [
-        {
-          text: "Because redux is more performant",
-        },
-        {
-          text: "YEAH 2 POST after insertMany",
-        },
+        { text: "Government here. Sorry, we do not understand your request" },
       ],
     },
   ]);
 
-  // // ASYNC AWAIT , add the async here: app.get("/seed", async (req, res, next) => {
-  // let postDB = await post.save();
-  //
-  //
-  // 7
   res.send(posts);
 });
+
+app.get("/authors", async (req, res, next) => {
+  let authors = await Author.find();
+  res.send(authors);
+});
+
+app.get("/posts", async (req, res, next) => {
+  let posts = await Post.find();
+  res.send(posts);
+});
+
+app.get("/posts/:id", async (req, res, next) => {
+  let { id } = req.params;
+
+  // findOne we use if we want to search by some criteria other than ID
+  // await Post.findOne({ email: 'rob@dci.org' })
+
+  // findById we use if we want to grab a record by ID
+  let post = await Post.findById(id).populate("author");
+  // what does populate do?
+  // it looks up the documents BEHIND the IDs and replace the ID by the actual document content
+  // so that way we can provide all data the frontend needs in ONE requests
+
+  res.send(post);
+});
+
 /*
 
 
@@ -107,35 +147,4 @@ app.get("/seed", async (req, res, next) => {
 
 
 
-
 */
-// --------------------------------------
-//        HARD CODED
-// --------------------------------------
-
-// request a blog post by ID
-app.get("/blogpost/:id", (req, res, next) => {
-  //
-  let { id } = req.params; // grab a id from the URL
-  //
-  res.send({
-    //   the id of the user, the id's inside the user are the id's of his posts
-    id: "123",
-    // title
-    title: "Most efficient structure of mongose Schema",
-    answers: [
-      { _id: 1, title: "I think mongoose POPULATE will help you." },
-      {
-        _id: 2,
-        title:
-          "Please look this Models and queries that can help you to build your schema",
-      },
-    ],
-  });
-  //   --------
-});
-
-// 3 PORT related
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on PORT ${process.env.PORT}`);
-});
