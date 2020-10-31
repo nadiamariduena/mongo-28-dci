@@ -106,8 +106,7 @@ on("error", function () {});
 
 #### WHAT ARE COLLECTIONS?
 
-<p>
-  </p>
+![rested](./img/collections_shcemas_models.jpg)
 
 <br>
 <br>
@@ -116,7 +115,7 @@ on("error", function () {});
 
 - Inside the mariochar.js that lays inside the MODELS folder
 
-- CREATE A SCHEMA for each of the records based on this model "mario character" for example like in the image)
+- CREATE A SCHEMA for each of the records based on this model "mario character" for example (like in the image)
 
 ```javascript
 const mongoose = require("mongoose");
@@ -148,6 +147,4 @@ const MarioChar = mongoose.model("mariochar", MarioCharSchema);
 
   ```javascript
   mongoose.model("mariochar", MarioCharSchema);
-
-
   ```
