@@ -148,3 +148,92 @@ const MarioChar = mongoose.model("mariochar", MarioCharSchema);
   ```javascript
   mongoose.model("mariochar", MarioCharSchema);
   ```
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+#### INSTALL mocha
+
+<p>Mocha is a feature-rich JavaScript test framework running on Node.js and in the browser, making asynchronous testing simple and fun. Mocha tests run serially, allowing for flexible and accurate reporting, while mapping uncaught exceptions to the correct test cases.</p>
+
+<br>
+
+#### SAVING DATA TO MONGODB
+
+```javascript
+npm install mocha --save
+
+```
+
+##### IMPORT/REQUIRE MOCHA AND ASSERT
+
+- You dont need to install assert as it s inside the mocha package
+
+```javascript
+const mocha = require("mocha");
+const assert = require("assert");
+//
+// INSIDE THE package.json
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "mongo",
+    "mongoose",
+    "tutorial",
+    "recap"
+  ],
+  "author": "nadia",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^5.0.4",
+    "mongoose": "^5.0.11",
+    "nodemon": "^1.17.2"
+  }
+}
+
+```
+
+<br>
+
+##### The Way MOCHA works:
+
+- 'describe()' describes what we want to test rather than our test suite. For instance, 'describe("MyRobot")' describes the 'MyRobot' object I want to test.
+
+- 'it()' specifies what the thing we want to test is supposed to do. For instance, 'it("mows my lawn")' will test if 'MyRobot' 'mows my lawn'.
+
+```javascript
+const mocha = require("mocha");
+const assert = require("assert");
+//
+//
+//
+describe("some demo tests", function () {
+  // CREATE TESTS
+  it("adds two numbers together", function () {
+    assert(2 + 3 === 5);
+    //   you want to assert that  2+3 is equal to 5
+    // so if 2+3 is true so 5, this assert passes , if the 2+3 was === to 4 it wont pass
+  });
+});
+```
+
+##### TEST IT
+
+```javascript
+npm run test
+//
+//
+// RESULT
+  some demo tests
+    ✓ adds two numbers together
+Connection has been made... made some BUZZ
+
+
+  1 passing (14ms)
+
+
+```
