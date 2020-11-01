@@ -23,11 +23,15 @@
 - Create a TEST folder to test the connection
 - Create a file inside the TEST folder: connection.js
 
-- REQUIRE Mongo:
+<br>
+
+- REQUIRE Mongoose:
 
 ```javascript
 const mongoose = require("mongoose");
 ```
+
+<br>
 
 - CONNECT to mongodb
 
@@ -237,3 +241,122 @@ Connection has been made... made some BUZZ
 
 
 ```
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+#### SAVING DATA |
+
+```javascript
+// here below you create a "new" INSTANCE of the MarioChar model (inside the models folder)
+var char = new MarioChar({
+  name: "Mario",
+});
+```
+
+##### save()
+
+- With save() you are saving it to
+  the database but since save() is asynchronous,
+  we have to use something that is going to await
+  until the process of saving is ready, and that
+  is when the .then() comes in.
+
+  ##### then()
+
+- inside the then() you will
+  add a call back function (),
+
+##### .isNew
+
+the char.isNew === false , means that if the character we
+are saving is equal to false(dont exist) means that is not
+longer new and that its now saved to the database, afterwards
+you add the done();
+
+##### done();
+
+done() means "this test is now done"!
+
+- DONT FORGET to add it here :
+
+  it("Saves a record to the database", function (done) {
+
+```javascript
+describe("Saving records", function () {
+  // CREATE TESTS
+  it("Saves a record to the databse", function (done) {
+    var char = new MarioChar({
+      name: "Mario",
+    });
+    /*
+
+    the char.isNew === false , means that if the character we
+    are saving is equal to false(dont exist) means that is not
+    longer new and that its now saved to the database, afterwards
+    you add the done(); which means "this test is now done"!
+    DONT FORGET to add it here :
+
+     it("Saves a record to the database", function (done) {
+
+    */
+    char.save().then(function () {
+```
+
+#### BUILT in Prmises
+
+```javascript
+// test.js
+
+const mocha = require("mocha");
+const assert = require("assert");
+// importing the model schema in:   models/mariochar");
+const MarioChar = require("../models/mariochar");
+
+describe("Saving records", function () {
+  // CREATE TESTS
+  it("Saves a record to the databse", function (done) {
+    // here below you create a "new" INSTANCE of the MarioChar model (inside the models folder)
+    var char = new MarioChar({
+      name: "Mario",
+    });
+
+    char.save().then(function () {
+      assert(char.isNew === false);
+      done();
+    });
+  });
+  // next test
+});
+//
+//
+// RESULT
+  Saving records
+Connection has been made... made some BUZZ
+    ✓ Saves a record to the databse (67ms)
+
+
+  1 passing (88ms)
+
+
+```
+
+<br>
+
+#### isNew property in Mongodb:
+
+- "isNew" is going to find out if a record "is new"
+  (has not been save yet) in the pre save callback
+  of mongoose model schema.
+
+<br>
+
+- "isNew" is a boolean property on a model
+  instance that indicates that
+  (a record has not been save yet) . Access it as
+  this.isNew from your pre save middleware.
+
+[isNew_property](https://stackoverflow.com/questions/12092772/determine-if-a-record-is-new-in-the-pre-save-callback)
