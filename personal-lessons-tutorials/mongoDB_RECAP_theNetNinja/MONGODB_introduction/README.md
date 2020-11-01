@@ -306,7 +306,7 @@ describe("Saving records", function () {
     char.save().then(function () {
 ```
 
-#### BUILT in Prmises
+#### PREVIEW
 
 ```javascript
 // test.js
@@ -360,3 +360,178 @@ Connection has been made... made some BUZZ
   this.isNew from your pre save middleware.
 
 [isNew_property](https://stackoverflow.com/questions/12092772/determine-if-a-record-is-new-in-the-pre-save-callback)
+
+<br>
+<br>
+<br>
+<hr>
+<br>
+
+### USING PROMISES 💍
+
+Saving records
+Connection has been made... made some BUZZ
+✓ Saves a record to the database
+
+1 passing (42ms)
+
+##### SOMEHOW mongoose DOESNT WANT ME TO USE THE DEFAULT mongoose promise library, thats why you get a warning of "deprecation".
+
+<p>So what i am going to do is use ES6 Promises</p>
+
+```javascript
+// This is ES6 default Promises and what i am doing here is overwriting it.
+mongoose.Promise = global.Promise;
+```
+
+<br>
+
+##### So if you run the test again, you will notice that even if it worked, the ORDER isn't right.
+
+```javascript
+Saving records
+Connection has been made... made some BUZZ
+  ✓ Saves a record to the databse
+
+
+1 passing (42ms)
+```
+
+<br>
+
+- WHAT i want is that this message "Connection has been made... made some BUZZ" comes before the
+  "Saving records"
+
+<br>
+
+- What is happening is that theres nothing that tells MONGO that it should WAIT until it stablish the connection, before it goes ahead and run the test.
+
+<br>
+
+- RUNNING the test before it makes the connection is really stupid.
+
+<br>
+
+#### SO TO PREVENT THAT, we will have to use a HOOK in MOCHA
+
+###### WHAT IS A HOOK?
+
+- A HOOK is a function which tells MOCHA "look i want you to RUN this section of code either before
+  you RUN the test or after you RUN the test, like so:
+
+```javascript
+//  CONNECT to the database before TEST run
+before(function () {
+    // add all the content of the connection
+}
+```
+
+#### preview
+
+```javascript
+const mongoose = require("mongoose");
+
+// ES6 Promises
+mongoose.Promise = global.Promise;
+
+//  CONNECT to the database before TEST run
+before(function () {
+  // Connect to mongodb
+
+  mongoose.connect("mongodb://localhost/testaroo");
+  mongoose.connection
+    .once("open", function () {
+      console.log("Connection has been made... made some BUZZ");
+    })
+    .on("error", function (error) {
+      console.log("Connection error", error);
+    });
+  //
+});
+```
+
+<br>
+
+##### AT THIS POINT mongoose doesnt know when this is completed because this right here is an "asynchronous request" , so we need to tell mongoose when it s completed.
+
+- SO PASS THE "done " parameter we saw before
+
+```javascript
+before(function (done) {
+  // Connect to mongodb
+  mongoose.connect("mongodb://localhost/testaroo");
+
+  mongoose.connection
+    .once("open", function () {
+      console.log("Connection has been made... made some BUZZ");
+      done();
+    })
+    .on("error", function (error) {
+      console.log("Connection error", error);
+    });
+  //
+});
+```
+
+##### test it : npm run test
+
+```javascript
+// RESULT BEFORE
+Saving records
+Connection has been made... made some BUZZ
+  ✓ Saves a record to the databse
+
+
+1 passing (42ms)
+//
+// RESULT AFTER CHANGES
+Connection has been made... made some BUZZ
+  Saving records
+    ✓ Saves a record to the databse
+
+
+  1 passing (43ms)
+```
+
+<br>
+
+#### TO AVOID THIS KIND OF WARNING
+
+```javascript
+(node:7300) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+(node:7300) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+Connection has been made... made some BUZZ
+  Saving records
+
+```
+
+#### ADD the following inside the connection
+
+- useNewUrlParser: true,
+- useUnifiedTopology: true,
+- useCreateIndex: true,
+
+##### like so:
+
+```javascript
+mongoose.connect("mongodb://localhost/testaroo", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+```
+
+#### RESULT
+
+```javascript
+> mocha
+
+
+
+Connection has been made... made some BUZZ
+  Saving records
+    ✓ Saves a record to the databse
+
+
+  1 passing (46ms)
+```
